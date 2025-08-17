@@ -11,7 +11,6 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AdminAuthController extends Controller
 {
-
     public function Login(AdminLoginRequest $request)
     {
         $data = $request->validated();
