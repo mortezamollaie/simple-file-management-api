@@ -51,7 +51,7 @@ class FileController extends Controller
             $files[] = $file;
         }
 
-        return ApiResponse::success('Files uploaded successfully.', $files);
+        return ApiResponse::success('Files uploaded successfully.', FileListResource::collection($files));
     }
 
     public function delete(FileDeleteRequest $request)

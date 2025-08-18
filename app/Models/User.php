@@ -69,4 +69,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(File::class);
     }
+
+    public function shareLinks(): HasMany
+    {
+        return $this->hasMany(ShareLink::class);
+    }
 }
