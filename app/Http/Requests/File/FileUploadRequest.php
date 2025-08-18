@@ -14,7 +14,7 @@ class FileUploadRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return $this->user() && $this->user()->is_admin;
     }
 
     /**
@@ -36,4 +36,12 @@ class FileUploadRequest extends FormRequest
             ApiResponse::validationError('Validation errors', $validator->errors())
         );
     }
+
+    protected function failedAuthorization()
+    {
+        throw new HttpResponseException(
+            ApiResponse::validationError('Unauthorized')
+        );
+    }
+
 }

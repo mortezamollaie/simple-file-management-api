@@ -16,14 +16,9 @@ class FileController extends Controller
         $this->fileRepo = $fileRepo;
     }
 
-
     public function upload(FileUploadRequest $request)
     {
         $user = $request->user();
-
-        if(! $user->is_admin){
-            return ApiResponse::error('You are not authorized to upload files.', 400);
-        }
 
         $data = $request->validated()['files'];
 
