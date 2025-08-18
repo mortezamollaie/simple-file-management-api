@@ -13,8 +13,6 @@ class LinkGenerateService
             $token = Str::random(25);
         } while (ShareLink::where('url', $token)->exists());
 
-        $url = 'share/'. $token;
-
-        return $url;
+        return $token;
     }
 }

@@ -25,4 +25,5 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('/links/create', [ShareLinkController::class, 'create'])->name('links.create');
     Route::get('/links/list', [ShareLinkController::class, 'list'])->name('links.list');
     Route::get('/user/links', [UserController::class, 'links'])->name('user.links');
+    Route::get('/links/share/{link}', [ShareLinkController::class, 'show'])->name('links.show');
 });

@@ -12,4 +12,9 @@ class ShareLinkRepository extends BaseRepositories
     {
         parent::__construct($model);
     }
+
+    public function getByLink($link)
+    {
+        return $this->model->where('url', $link)->first();
+    }
 }
