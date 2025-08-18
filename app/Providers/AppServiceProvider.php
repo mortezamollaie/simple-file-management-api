@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Http\Repositories\BaseRepositories;
+use App\Http\Repositories\BaseRepositoriesInterface;
+use App\Http\Repositories\FileRepositories;
+use App\Http\Repositories\FileRepositoriesInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->app->bind(BaseRepositoriesInterface::class, BaseRepositories::class);
+        $this->app->bind(FileRepositoriesInterface::class, FileRepositories::class);
     }
 }

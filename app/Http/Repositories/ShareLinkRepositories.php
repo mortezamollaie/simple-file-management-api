@@ -6,7 +6,7 @@ use App\Models\File;
 use App\Models\ShareLink;
 use Illuminate\Database\Eloquent\Model;
 
-class ShareLinkRepository extends BaseRepositories
+class ShareLinkRepositories extends BaseRepositories implements ShareLinkRepositoriesInterface
 {
     public function __construct(ShareLink $model)
     {

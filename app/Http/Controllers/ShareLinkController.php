@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Repositories\ShareLinkRepository;
+use App\Http\Repositories\ShareLinkRepositories;
 use App\Http\Requests\ShareLink\ShareLinkCreateRequest;
 use App\Http\Resources\ShareLinkDetailResource;
 use App\Http\Resources\ShareLinkListResource;
@@ -17,7 +17,7 @@ class ShareLinkController extends Controller
 {
     protected $shareLinkRepo;
 
-    public function __construct(ShareLinkRepository $shareLinkRepo){
+    public function __construct(ShareLinkRepositories $shareLinkRepo){
         $this->shareLinkRepo = $shareLinkRepo;
     }
 
@@ -61,6 +61,9 @@ class ShareLinkController extends Controller
             now()->addMinutes($totalMinutes ),
             ['link' => $link->url]
         );
+
+        $link->full_path = $signedUrl;
+        $link->save();
 
         return apiResponse::success('Link created successfully', [
             'link' => $signedUrl,

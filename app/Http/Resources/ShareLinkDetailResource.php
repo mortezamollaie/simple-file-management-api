@@ -17,7 +17,7 @@ class ShareLinkDetailResource extends JsonResource
         return [
             'user_email' => $this->user->email,
             'file_name' => $this->file->name,
-            'url' => $this->url,
+            'url' => $this->full_path,
             'expires_time' => $this->expires_time,
             'is_active' => $this->valid_link,
         ];

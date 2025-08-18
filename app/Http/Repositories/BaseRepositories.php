@@ -4,7 +4,7 @@ namespace App\Http\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BaseRepositories
+class BaseRepositories implements BaseRepositoriesInterface
 {
     /**
      * @var Model
@@ -43,5 +43,10 @@ class BaseRepositories
         $obj = $this->model->query()->findOrFail($id);
 
         return $obj->delete();
+    }
+
+    public function count()
+    {
+        return $this->model->query()->count();
     }
 }
