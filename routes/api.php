@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\File\FileController;
 use App\Http\Controllers\ShareLinkController;
+use App\Http\Controllers\User\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,4 +23,6 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('/file/list', [FileController::class, 'list'])->name('file.list');
     Route::post('/file/delete', [FileController::class, 'delete'])->name('file.delete');
     Route::post('/links/create', [ShareLinkController::class, 'create'])->name('links.create');
+    Route::get('/links/list', [ShareLinkController::class, 'list'])->name('links.list');
+    Route::get('/user/links', [UserController::class, 'links'])->name('user.links');
 });

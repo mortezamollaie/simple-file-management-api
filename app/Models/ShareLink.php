@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 class ShareLink extends Model
 {
@@ -14,6 +16,8 @@ class ShareLink extends Model
         'expires_at',
     ];
 
+    protected $appends = ['expires_time', 'valid_link'];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -22,5 +26,27 @@ class ShareLink extends Model
     public function file(): BelongsTo
     {
         return $this->belongsTo(File::class);
+    }
+
+    public function getExpiresTimeAttribute()
+    {
+        $created = $this->created_at;
+
+        [$hours, $minutes, $seconds] = explode(':', $this->expires_at);
+
+        $interval = CarbonInterval::hours($hours)
+            ->minutes($minutes)
+            ->seconds($seconds);
+
+        return $created->copy()->add($interval);
+    }
+
+    public function getValidLinkAttribute()
+    {
+        $expiresTime = $this->expires_time;
+
+        $now = Carbon::now();
+
+        return $expiresTime->greaterThan($now);
     }
 }
