@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\AdminLoginRequest;
 use App\Http\Responses\ApiResponse;
-use Illuminate\Http\Request;
-use Tymon\JWTAuth\Exceptions\JWTException;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Http\services\JWTServices;
 
 class AdminAuthController extends Controller
 {
@@ -15,13 +13,7 @@ class AdminAuthController extends Controller
     {
         $data = $request->validated();
 
-        try {
-            if (!$token = JWTAuth::attempt($data)) {
-                return ApiResponse::error('Invalid credentials', 401);
-            }
-        } catch (JWTException $e) {
-            return ApiResponse::serverError('Could not create token', 500);
-        }
+        $token = JWTServices::JWTlogin($data);
 
         $user = auth()->user();
 

@@ -12,3 +12,4 @@ Route::get('/user', function (Request $request) {
 
 Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login');
 Route::post('/user/login', [UserAuthController::class, 'login'])->name('user.login');
+
