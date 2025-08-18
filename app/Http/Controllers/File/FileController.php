@@ -4,6 +4,7 @@ namespace App\Http\Controllers\File;
 
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\FileRepositories;
+use App\Http\Requests\File\FileDeleteRequest;
 use App\Http\Requests\File\FileUploadRequest;
 use App\Http\Resources\FileListResource;
 use App\Http\Responses\ApiResponse;
@@ -15,6 +16,19 @@ class FileController extends Controller
 
     public function __construct(FileRepositories $fileRepo){
         $this->fileRepo = $fileRepo;
+    }
+
+    public function list(Request $request)
+    {
+        $user = $request->user();
+
+        if(! $user->is_admin){
+            return ApiResponse::error('Unauthorized');
+        }
+
+        $files = $this->fileRepo->list();
+
+        return ApiResponse::success('Files List', FileListResource::collection($files));
     }
 
     public function upload(FileUploadRequest $request)
@@ -40,18 +54,15 @@ class FileController extends Controller
         return ApiResponse::success('Files uploaded successfully.', $files);
     }
 
-    public function list(Request $request)
+    public function delete(FileDeleteRequest $request)
     {
-        $user = $request->user();
+        $data = $request->validated()['ids'];
 
-        if(! $user->is_admin){
-            return ApiResponse::error('Unauthorized');
+        foreach($data as $id){
+            $this->fileRepo->delete($id);
         }
 
-        $files = $this->fileRepo->list();
-
-        return ApiResponse::success('Files List', FileListResource::collection($files));
+        return ApiResponse::success('Files deleted successfully.');
     }
-
 
 }

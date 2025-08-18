@@ -19,4 +19,5 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
     Route::post('/file/upload', [FileController::class, 'upload'])->name('file.upload');
     Route::get('/file/list', [FileController::class, 'list'])->name('file.list');
+    Route::post('/file/delete', [FileController::class, 'delete'])->name('file.delete');
 });
