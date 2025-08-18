@@ -40,7 +40,7 @@ class FileController extends Controller
         $files = [];
 
         foreach ($data as $file) {
-            $path = $file->storeAs('uploads', $file->getClientOriginalName(), 'public');
+            $path = $file->storeAs('uploads', $file->getClientOriginalName(), 'local');
             $file = $this->fileRepo->uploadByUser($user, [
                 'name' => $file->getClientOriginalName(),
                 'path' => $path,

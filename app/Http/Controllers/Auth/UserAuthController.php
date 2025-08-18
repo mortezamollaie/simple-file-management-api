@@ -25,7 +25,7 @@ class UserAuthController extends Controller
             return ApiResponse::error('User can not login with this route.', 400);
         }
 
-        return ApiResponse::success(message: 'Login successfully', data: ['token' => $token]);
+        return ApiResponse::success(message: 'Login successfully', data: ['token' => $token, 'user_name' => $user->name]);
     }
 
     public function logout()

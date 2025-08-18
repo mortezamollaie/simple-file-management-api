@@ -11,6 +11,7 @@ use App\Http\services\LinkGenerateService;
 use App\Models\ShareLink;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 
 class ShareLinkController extends Controller
 {
@@ -47,25 +48,41 @@ class ShareLinkController extends Controller
 
         $link = $this->shareLinkRepo->create($data);
 
-        return apiResponse::success('Link created successfully', new ShareLinkDetailResource($link));
+        [$hours, $minutes, $seconds] = explode(':', $link->expires_at);
+
+        $hours = intval($hours);
+        $minutes = intval($minutes);
+        $seconds = intval($seconds);
+
+        $totalMinutes = $hours * 60 + $minutes + ($seconds > 0 ? 1 : 0);
+
+        $signedUrl = URL::temporarySignedRoute(
+            'links.show',
+            now()->addMinutes($totalMinutes ),
+            ['link' => $link->url]
+        );
+
+        return apiResponse::success('Link created successfully', [
+            'link' => $signedUrl,
+        ]);
     }
 
     public function show(Request $request, $link)
     {
         $user = $request->user();
 
-        $shareLinks = $this->shareLinkRepo->getByLink($link);
+        $shareLink = $this->shareLinkRepo->getByLink($link);
 
-        if($shareLinks->user != $user && !$user->is_admin){
+        if($shareLink->user != $user && !$user->is_admin){
             return ApiResponse::error('Unauthorized');
-        } else if (! $shareLinks->valid_link){
+        } else if (! $shareLink->valid_link){
             return ApiResponse::error('Link was deprecated');
         }
 
-        $url = asset(Storage::url($shareLinks->file->path));
+        $filePath = storage_path('app/private/' . $shareLink->file->path);
 
-        return ApiResponse::success('link fetch successfully', [
-            'url' => $url,
-        ]);
+        $filePath = str_replace('/', '\\', $filePath);
+
+        return response()->file($filePath);
     }
 }
