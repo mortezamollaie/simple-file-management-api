@@ -21,7 +21,7 @@ class JWTServices
         return $token;
     }
 
-    public static function Logout()
+    public static function JWTLogout()
     {
         try {
             JWTAuth::invalidate(JWTAuth::getToken());

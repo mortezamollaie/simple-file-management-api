@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Auth\UserAuthController;
+use App\Http\Controllers\File\FileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +17,5 @@ Route::post('/user/login', [UserAuthController::class, 'login'])->name('user.log
 Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('/user/logout', [UserAuthController::class, 'logout'])->name('user.logout');
     Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+    Route::post('/file/upload', [FileController::class, 'upload'])->name('file.upload');
 });
