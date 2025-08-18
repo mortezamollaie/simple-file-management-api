@@ -23,4 +23,15 @@ class AdminAuthController extends Controller
 
         return ApiResponse::success(message: 'Login successfully', data: ['token' => $token]);
     }
+
+    public function logout()
+    {
+        $result = JWTServices::Logout();
+
+        if($result){
+            return ApiResponse::success('Logout successfully');
+        }
+
+        return ApiResponse::error('Logout failed');
+    }
 }

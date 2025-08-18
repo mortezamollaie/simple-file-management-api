@@ -13,3 +13,7 @@ Route::get('/user', function (Request $request) {
 Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login');
 Route::post('/user/login', [UserAuthController::class, 'login'])->name('user.login');
 
+Route::group(['middleware' => 'jwt.auth'], function () {
+    Route::post('/user/logout', [UserAuthController::class, 'logout'])->name('user.logout');
+    Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+});

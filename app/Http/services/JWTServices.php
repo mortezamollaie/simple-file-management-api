@@ -20,4 +20,15 @@ class JWTServices
 
         return $token;
     }
+
+    public static function Logout()
+    {
+        try {
+            JWTAuth::invalidate(JWTAuth::getToken());
+        } catch (JWTException $e) {
+            return ApiResponse::serverError('Could not logout', 500);
+        }
+
+        return true;
+    }
 }
