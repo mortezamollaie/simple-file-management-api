@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ViewingFileEvent;
 use App\Http\Repositories\ShareLinkRepositories;
 use App\Http\Requests\ShareLink\ShareLinkCreateRequest;
 use App\Http\Resources\ShareLinkDetailResource;
@@ -93,6 +94,8 @@ class ShareLinkController extends Controller
         $filePath = storage_path('app/private/' . $shareLink->file->path);
 
         $filePath = str_replace('/', '\\', $filePath);
+
+        broadcast(new ViewingFileEvent($user, $shareLink->file));
 
         return response()->file($filePath);
     }
