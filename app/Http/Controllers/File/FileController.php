@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\File;
 
 use App\Http\Controllers\Controller;
+use App\Http\Repositories\ActiveLogRepositories;
 use App\Http\Repositories\FileRepositories;
 use App\Http\Requests\File\FileDeleteRequest;
 use App\Http\Requests\File\FileUploadRequest;
@@ -16,8 +17,12 @@ class FileController extends Controller
 {
     protected $fileRepo;
 
-    public function __construct(FileRepositories $fileRepo){
+    protected $activeLogRepo;
+
+    public function __construct(FileRepositories $fileRepo, ActiveLogRepositories $activeLogRepo){
         $this->fileRepo = $fileRepo;
+
+        $this->activeLogRepo = $activeLogRepo;
     }
 
     public function list(Request $request)
@@ -29,6 +34,8 @@ class FileController extends Controller
         }
 
         $files = $this->fileRepo->list();
+
+        $this->activeLogRepo->create(['user_id' => $user->id, 'action_type' => 'get files list', 'payload', 'admin']);
 
         return ApiResponse::success('Files List', FileListResource::collection($files));
     }
@@ -53,6 +60,8 @@ class FileController extends Controller
             $files[] = $file;
         }
 
+        $this->activeLogRepo->create(['user_id' => $user->id, 'action_type' => 'upload files', 'payload', 'admin']);
+
         return ApiResponse::success('Files uploaded successfully.', FileListResource::collection($files));
     }
 
@@ -63,6 +72,8 @@ class FileController extends Controller
         foreach($data as $id){
             $this->fileRepo->delete($id);
         }
+
+        $this->activeLogRepo->create(['user_id' => $request->user->id, 'action_type' => 'delete files', 'payload', 'admin']);
 
         return ApiResponse::success('Files deleted successfully.');
     }
@@ -81,6 +92,8 @@ class FileController extends Controller
         $filePath = storage_path('app/private/' . $file->path);
 
         $filePath = str_replace('/', '\\', $filePath);
+
+        $this->activeLogRepo->create(['user_id' => $user->id, 'action_type' => 'showing file', 'payload', "file $file->name"]);
 
         return response()->file($filePath);
     }

@@ -8,7 +8,7 @@ class ActiveLog extends Model
 {
     protected $fillable = [
       'user_id',
-      'action',
+      'action_type',
       'payload',
     ];
 }

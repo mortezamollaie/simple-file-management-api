@@ -24,6 +24,17 @@ class ActiveLogController extends Controller
             ApiResponse::error('Unauthorized');
         }
 
-        ApiResponse::success('ActiveLogList', $this->activeLogRepo->list());
+        $data = $this->activeLogRepo->list();
+
+        return ApiResponse::success('ok', $data);
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->only(['user_id', 'action_type', 'payload']);
+
+        $result = $this->activeLogRepo->create($data);
+
+        return ApiResponse::success('ok', $result);
     }
 }

@@ -32,4 +32,5 @@ Route::group(['middleware' => ['jwt.auth', 'cors']], function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/admin/show-file/{id}', [FileController::class, 'showAdminFile'])->name('admin.show.file');
     Route::get('/admin/active-log/', [ActiveLogController::class, 'index'])->name('admin.active.log');
+    Route::post('/admin/active-log/', [ActiveLogController::class, 'store'])->name('admin.active.log.store');
 });
