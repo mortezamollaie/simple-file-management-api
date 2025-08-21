@@ -15,7 +15,7 @@ class JWTServices
                 return ApiResponse::error('Invalid credentials', 401);
             }
         } catch (JWTException $e) {
-            return ApiResponse::serverError('Could not create token', 500);
+            return ApiResponse::serverError('Could not create token', 400);
         }
 
         return $token;

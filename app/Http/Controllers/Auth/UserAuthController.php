@@ -30,6 +30,10 @@ class UserAuthController extends Controller
 
         $user = auth()->user();
 
+        if(!$user){
+            return ApiResponse::error('Login Failed', 400);
+        }
+
         if ($user->is_admin){
             return ApiResponse::error('User can not login with this route.', 400);
         }

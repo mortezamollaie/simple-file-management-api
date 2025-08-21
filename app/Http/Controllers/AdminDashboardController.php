@@ -29,11 +29,14 @@ class AdminDashboardController extends Controller
 
         $total_files = $this->fileRepo->count();
 
-        $total_users = User::query()->count();
+        $total_users = $this->userRepo->UsersCount();
+
+        $total_storage = $this->fileRepo->fileStorageUsed();
 
         return ApiResponse::success('dashboard data', [
             'total_files' => $total_files,
-            'total_users' => $total_users
+            'total_users' => $total_users,
+            'total_storage' => $total_storage
         ]);
     }
 

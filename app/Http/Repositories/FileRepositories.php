@@ -20,4 +20,9 @@ class FileRepositories extends BaseRepositories
             'path' => $data['path'],
         ]);
     }
+
+    public function fileStorageUsed()
+    {
+        return floor($this->model->query()->sum('size') / 1024) . ' KB';
+    }
 }

@@ -8,4 +8,6 @@ use App\Models\User;
 interface FileRepositoriesInterface
 {
     public function uploadByUser(User $user, File $file);
+
+    public function fileStorageUsed();
 }
