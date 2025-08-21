@@ -17,6 +17,10 @@ class AdminAuthController extends Controller
 
         $user = auth()->user();
 
+        if(!$user){
+            return ApiResponse::error('Login Failed', 400);
+        }
+
         if (! $user->is_admin){
             return ApiResponse::error('User Not Admin', 400);
         }

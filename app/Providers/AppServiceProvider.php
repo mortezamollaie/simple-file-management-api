@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Http\Repositories\ActiveLogRepositories;
+use App\Http\Repositories\ActiveLogRepositoriesInterface;
 use App\Http\Repositories\BaseRepositories;
 use App\Http\Repositories\BaseRepositoriesInterface;
 use App\Http\Repositories\FileRepositories;
@@ -28,5 +30,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(BaseRepositoriesInterface::class, BaseRepositories::class);
         $this->app->bind(FileRepositoriesInterface::class, FileRepositories::class);
         $this->app->bind(UserRepositoriesInterface::class, UserRepositories::class);
+        $this->app->bind(ActiveLogRepositoriesInterface::class, ActiveLogRepositories::class);
     }
 }
