@@ -14,7 +14,8 @@ class ShareLink extends Model
         'file_id',
         'url',
         'expires_at',
-        'full_path'
+        'full_path',
+        'admin_path',
     ];
 
     protected $appends = ['expires_time', 'valid_link'];

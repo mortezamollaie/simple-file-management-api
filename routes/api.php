@@ -29,4 +29,5 @@ Route::group(['middleware' => ['jwt.auth', 'cors']], function () {
     Route::get('/links/share/{link}', [ShareLinkController::class, 'show'])->name('links.show');
     Route::get('/admin/create-link', [AdminDashboardController::class, 'createLink'])->name('admin.create.link');
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/admin/show-file/{id}', [FileController::class, 'showAdminFile'])->name('admin.show.file');
 });

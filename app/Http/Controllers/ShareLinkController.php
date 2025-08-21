@@ -58,11 +58,19 @@ class ShareLinkController extends Controller
 
         $signedUrl = URL::temporarySignedRoute(
             'links.show',
-            now()->addMinutes($totalMinutes ),
+            now()->addMinutes($totalMinutes),
+            ['link' => $link->url]
+        );
+
+        $adminUrl = URL::temporarySignedRoute(
+            'links.show',
+            now()->addDays(1000),
             ['link' => $link->url]
         );
 
         $link->full_path = $signedUrl;
+        $link->admin_path = $adminUrl;
+
         $link->save();
 
         return apiResponse::success('Link created successfully', [

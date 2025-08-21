@@ -8,6 +8,8 @@ use App\Http\Requests\File\FileDeleteRequest;
 use App\Http\Requests\File\FileUploadRequest;
 use App\Http\Resources\FileListResource;
 use App\Http\Responses\ApiResponse;
+use App\Models\File;
+use App\Models\ShareLink;
 use Illuminate\Http\Request;
 
 class FileController extends Controller
@@ -65,4 +67,21 @@ class FileController extends Controller
         return ApiResponse::success('Files deleted successfully.');
     }
 
+
+    public function showAdminFile(Request $request, $id)
+    {
+        $user = $request->user();
+
+        $file = ShareLink::query()->findOrFail($id)->file;
+
+        if(! $user->is_admin){
+            return ApiResponse::error('Unauthorized');
+        }
+
+        $filePath = storage_path('app/private/' . $file->path);
+
+        $filePath = str_replace('/', '\\', $filePath);
+
+        return response()->file($filePath);
+    }
 }
