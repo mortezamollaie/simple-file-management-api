@@ -5,13 +5,10 @@ namespace App\Http\Controllers;
 use App\Events\ViewingFileEvent;
 use App\Http\Repositories\ShareLinkRepositories;
 use App\Http\Requests\ShareLink\ShareLinkCreateRequest;
-use App\Http\Resources\ShareLinkDetailResource;
 use App\Http\Resources\ShareLinkListResource;
 use App\Http\Responses\ApiResponse;
 use App\Http\services\LinkGenerateService;
-use App\Models\ShareLink;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 
 class ShareLinkController extends Controller

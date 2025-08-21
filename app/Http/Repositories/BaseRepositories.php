@@ -23,7 +23,7 @@ class BaseRepositories implements BaseRepositoriesInterface
 
     public function list()
     {
-        return $this->model->all();
+        return $this->model->query()->orderBy('created_at', 'desc')->get();
     }
 
     public function create($data)

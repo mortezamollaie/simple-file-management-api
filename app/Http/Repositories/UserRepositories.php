@@ -2,7 +2,6 @@
 
 namespace App\Http\Repositories;
 
-use App\Models\ShareLink;
 use App\Models\User;
 
 class UserRepositories extends BaseRepositories implements UserRepositoriesInterface
