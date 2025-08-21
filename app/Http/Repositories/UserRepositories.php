@@ -16,4 +16,9 @@ class UserRepositories extends BaseRepositories implements UserRepositoriesInter
     {
         return $this->model->query()->where('is_admin', false)->count();
     }
+
+    public function JustUsersList()
+    {
+        return $this->model->query()->where('is_admin', false)->get();
+    }
 }

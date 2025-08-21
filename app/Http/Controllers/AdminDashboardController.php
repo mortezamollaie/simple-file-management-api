@@ -48,7 +48,7 @@ class AdminDashboardController extends Controller
             return ApiResponse::error(403, 'Unauthorized');
         }
 
-        $users = User::all();
+        $users = $this->userRepo->JustUsersList();
 
         $files = $this->fileRepo->list();
 
