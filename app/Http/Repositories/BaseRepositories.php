@@ -31,6 +31,11 @@ class BaseRepositories implements BaseRepositoriesInterface
         return $this->model->query()->create($data);
     }
 
+    public function getById(int $id)
+    {
+        return $this->model->query()->findOrFail($id);
+    }
+
     public function update($id, $data)
     {
         $obj = $this->model->query()->findOrFail($id);
@@ -49,4 +54,6 @@ class BaseRepositories implements BaseRepositoriesInterface
     {
         return $this->model->query()->count();
     }
+
+
 }
